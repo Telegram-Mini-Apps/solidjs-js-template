@@ -61,10 +61,10 @@ After this, you will see a similar message in your terminal:
 ```bash
 VITE v5.2.12  ready in 237 ms
 
-➜  Local:   http://localhost:5173/solidjs-template
-➜  Network: http://172.18.16.1:5173/solidjs-template
-➜  Network: http://172.19.32.1:5173/solidjs-template
-➜  Network: http://192.168.0.171:5173/solidjs-template
+➜  Local:   http://localhost:5173/solidjs-js-template
+➜  Network: http://172.18.16.1:5173/solidjs-js-template
+➜  Network: http://172.19.32.1:5173/solidjs-js-template
+➜  Network: http://192.168.0.171:5173/solidjs-js-template
 ➜  press h + enter to show help
 ```
 
@@ -103,10 +103,10 @@ After uncommenting the function, run the `dev` script again and observe the outp
 ```bash
 VITE v5.2.12  ready in 265 ms
 
-➜  Local:   https://localhost:5173/solidjs-template
-➜  Network: https://172.18.16.1:5173/solidjs-template
-➜  Network: https://172.19.32.1:5173/solidjs-template
-➜  Network: https://192.168.0.171:5173/solidjs-template
+➜  Local:   https://localhost:5173/solidjs-js-template
+➜  Network: https://172.18.16.1:5173/solidjs-js-template
+➜  Network: https://172.19.32.1:5173/solidjs-js-template
+➜  Network: https://192.168.0.171:5173/solidjs-js-template
 ➜  press h + enter to show help
 ```
 

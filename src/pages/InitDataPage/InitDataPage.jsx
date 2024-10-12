@@ -1,4 +1,4 @@
-import { retrieveLaunchParams, useInitData } from '@telegram-apps/sdk-solid';
+import { initData, useSignal } from '@telegram-apps/sdk-solid';
 import { createMemo, Show } from 'solid-js';
 
 import { DisplayData } from '@/components/DisplayData/DisplayData.jsx';
@@ -27,40 +27,53 @@ function getUserRows(user) {
 }
 
 export function InitDataPage() {
-  const initData = useInitData();
-  const initDataRaw = retrieveLaunchParams().initDataRaw;
+  const initDataState = useSignal(initData.state);
+  const initDataRaw = useSignal(initData.raw);
 
   const initDataRows = createMemo(() => {
-    const complete = initData();
-
-    return complete && initDataRaw
-      ? [
-        { title: 'raw', value: initDataRaw },
-        { title: 'auth_date', value: complete.authDate.toLocaleString() },
-        { title: 'auth_date (raw)', value: complete.authDate.getTime() / 1000 },
-        { title: 'hash', value: complete.hash },
-        { title: 'can_send_after', value: complete.canSendAfterDate?.toISOString() },
-        { title: 'can_send_after (raw)', value: complete.canSendAfter },
-        { title: 'query_id', value: complete.queryId },
-        { title: 'start_param', value: complete.startParam },
-        { title: 'chat_type', value: complete.chatType },
-        { title: 'chat_instance', value: complete.chatInstance },
-      ]
-      : undefined;
+    const state = initDataState();
+    const raw = initDataRaw();
+    if (!state || !raw) {
+      return;
+    }
+    const {
+      authDate,
+      hash,
+      queryId,
+      chatType,
+      chatInstance,
+      canSendAfter,
+      startParam,
+    } = state;
+    return [
+      { title: 'raw', value: raw },
+      { title: 'auth_date', value: authDate.toLocaleString() },
+      { title: 'auth_date (raw)', value: authDate.getTime() / 1000 },
+      { title: 'hash', value: hash },
+      {
+        title: 'can_send_after',
+        value: initData.canSendAfterDate()?.toISOString(),
+      },
+      { title: 'can_send_after (raw)', value: canSendAfter },
+      { title: 'query_id', value: queryId },
+      { title: 'start_param', value: startParam },
+      { title: 'chat_type', value: chatType },
+      { title: 'chat_instance', value: chatInstance },
+    ];
   });
 
   const userRows = createMemo(() => {
-    const user = initData()?.user;
+    const user = initDataState()?.user;
     return user ? getUserRows(user) : undefined;
   });
 
   const receiverRows = createMemo(() => {
-    const receiver = initData()?.receiver;
+    const receiver = initDataState()?.receiver;
     return receiver ? getUserRows(receiver) : undefined;
   });
 
   const chatRows = createMemo(() => {
-    const chat = initData()?.chat;
+    const chat = initDataState()?.chat;
     return chat
       ? [
         { title: 'id', value: chat.id.toString() },
@@ -74,6 +87,7 @@ export function InitDataPage() {
 
   return (
     <Page
+      back
       title="Init Data"
       disclaimer={(
         <>
@@ -86,7 +100,10 @@ export function InitDataPage() {
         </>
       )}
     >
-      <Show when={initDataRows()} fallback={<i>Application was launched with missing init data</i>}>
+      <Show
+        when={initDataRows()}
+        fallback={<i>Application was launched with missing init data</i>}
+      >
         {(rows) => (
           <>
             <div class="init-data-page__section">
@@ -96,21 +113,24 @@ export function InitDataPage() {
 
             <div class="init-data-page__section">
               <h2 class="init-data-page__section-title">User</h2>
-              <Show when={userRows()} fallback={<i>User information missing</i>}>
+              <Show when={userRows()}
+                    fallback={<i>User information missing</i>}>
                 {(uRows) => <DisplayData rows={uRows()}/>}
               </Show>
             </div>
 
             <div class="init-data-page__section">
               <h2 class="init-data-page__section-title">Receiver</h2>
-              <Show when={receiverRows()} fallback={<i>Receiver information missing</i>}>
+              <Show when={receiverRows()}
+                    fallback={<i>Receiver information missing</i>}>
                 {(rRows) => <DisplayData rows={rRows()}/>}
               </Show>
             </div>
 
             <div class="init-data-page__section">
               <h2 class="init-data-page__section-title">Chat</h2>
-              <Show when={chatRows()} fallback={<i>Chat information missing</i>}>
+              <Show when={chatRows()}
+                    fallback={<i>Chat information missing</i>}>
                 {(cRows) => <DisplayData rows={cRows()}/>}
               </Show>
             </div>

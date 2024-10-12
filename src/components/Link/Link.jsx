@@ -1,5 +1,5 @@
 import { A } from '@solidjs/router';
-import { classNames, useUtils } from '@telegram-apps/sdk-solid';
+import { classNames, openLink } from '@telegram-apps/sdk-solid';
 
 import './Link.css';
 
@@ -8,11 +8,6 @@ import './Link.css';
  * @return {import('solid-js').JSXElement}
  */
 export function Link(props) {
-  const utils = useUtils();
-
-  /**
-   * @param {MouseEvent} e
-   */
   const onClick = (e) => {
     // Compute if target path is external. In this case we would like to open link using
     // TMA method.
@@ -23,7 +18,7 @@ export function Link(props) {
 
     if (isExternal) {
       e.preventDefault();
-      return utils().openLink(targetUrl.toString());
+      openLink(targetUrl.toString());
     }
   };
 

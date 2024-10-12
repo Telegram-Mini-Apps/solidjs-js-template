@@ -12,7 +12,7 @@ export function TonConnectPage() {
   const wallet = useTonWallet();
 
   return (
-    <Page title="TON Connect">
+    <Page title="TON Connect" back>
       <Show
         when={wallet()}
         fallback={

@@ -1,58 +1,36 @@
-import { retrieveLaunchParams, SDKProvider } from '@telegram-apps/sdk-solid';
 import { ErrorBoundary, Switch, Match } from 'solid-js';
 
 import { App } from '@/components/App.jsx';
 import { TonConnectUIProvider } from '@/tonconnect/TonConnectUIProvider.jsx';
+import { publicUrl } from '@/helpers/publicUrl.js';
 
-/**
- * @returns {Node | JSX.ArrayElement | string | number | boolean}
- */
-function Inner() {
-  const debug = retrieveLaunchParams().startParam === 'debug';
-  if (debug) {
-    import('eruda').then((lib) => lib.default.init());
-  }
-
+function ErrorBoundaryError(props) {
   return (
-    <TonConnectUIProvider
-      manifestUrl={new URL('tonconnect-manifest.json', window.location.href).toString()}
-    >
-      <SDKProvider acceptCustomStyles={true} debug={debug}>
-        <App/>
-      </SDKProvider>
-    </TonConnectUIProvider>
+    <div>
+      <p>ErrorBoundary handled error:</p>
+      <blockquote>
+        <code>
+          <Switch fallback={JSON.stringify(props.error)}>
+            <Match when={typeof props.error === 'string' ? props.error : false}>
+              {v => v()}
+            </Match>
+            <Match
+              when={props.error instanceof Error ? props.error.message : false}>
+              {v => v()}
+            </Match>
+          </Switch>
+        </code>
+      </blockquote>
+    </div>
   );
 }
 
-/**
- * @returns {Node | JSX.ArrayElement | string | number | boolean}
- */
 export function Root() {
   return (
-    <ErrorBoundary
-      fallback={err => {
-        console.error('ErrorBoundary handled error:', err);
-
-        return (
-          <div>
-            <p>ErrorBoundary handled error:</p>
-            <blockquote>
-              <code>
-                <Switch fallback={JSON.stringify(err)}>
-                  <Match when={typeof err === 'string' ? err : false}>
-                    {v => v()}
-                  </Match>
-                  <Match when={err instanceof Error ? err.message : false}>
-                    {v => v()}
-                  </Match>
-                </Switch>
-              </code>
-            </blockquote>
-          </div>
-        );
-      }}
-    >
-      <Inner/>
+    <ErrorBoundary fallback={ErrorBoundaryError}>
+      <TonConnectUIProvider manifestUrl={publicUrl('tonconnect-manifest.json')}>
+        <App/>
+      </TonConnectUIProvider>
     </ErrorBoundary>
   );
 }

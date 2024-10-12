@@ -1,14 +1,15 @@
-import { useThemeParams } from '@telegram-apps/sdk-solid';
+import { useSignal, themeParams } from '@telegram-apps/sdk-solid';
 
 import { DisplayData } from '@/components/DisplayData/DisplayData.jsx';
 import { Link } from '@/components/Link/Link.jsx';
 import { Page } from '@/components/Page/Page.jsx';
 
 export function ThemeParamsPage() {
-  const themeParams = useThemeParams();
+  const tpState = useSignal(themeParams.state);
 
   return (
     <Page
+      back
       title="Theme Params"
       disclaimer={(
         <>
@@ -24,7 +25,7 @@ export function ThemeParamsPage() {
       <DisplayData
         rows={
           Object
-            .entries(themeParams().getState())
+            .entries(tpState())
             .map(([title, value]) => ({
               title: title
                 .replace(/[A-Z]/g, (m) => `_${m.toLowerCase()}`)

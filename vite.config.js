@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
-// import basicSsl from '@vitejs/plugin-basic-ssl';
+import mkcert from 'vite-plugin-mkcert';
 
 export default defineConfig({
   base: '/solidjs-js-template',
@@ -12,9 +12,9 @@ export default defineConfig({
     // For more info see https://github.com/thetarnav/solid-devtools/tree/main/packages/extension#readme
     // devtools(),
     solidPlugin(),
-    // Allows using self-signed certificates to run the dev server using HTTPS.
-    // https://www.npmjs.com/package/@vitejs/plugin-basic-ssl
-    // basicSsl(),
+    // Create a custom SSL certificate valid for the local machine.
+    // https://www.npmjs.com/package/vite-plugin-mkcert
+    mkcert(),
   ],
   build: {
     target: 'esnext',
@@ -26,7 +26,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(dirname(fileURLToPath(import.meta.url)), './src'),
+      '@': resolve(import.meta.dirname, './src'),
     }
   },
 });

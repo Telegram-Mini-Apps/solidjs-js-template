@@ -9,7 +9,6 @@ export function ThemeParamsPage() {
 
   return (
     <Page
-      back
       title="Theme Params"
       disclaimer={(
         <>

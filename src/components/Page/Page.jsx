@@ -1,4 +1,4 @@
-import { createEffect } from 'solid-js';
+import { createEffect, createMemo } from 'solid-js';
 import { backButton } from '@telegram-apps/sdk-solid';
 
 import { useNavigate } from '@solidjs/router';
@@ -7,9 +7,10 @@ import './Page.css';
 
 export function Page(props) {
   const navigate = useNavigate();
+  const back = createMemo(() => typeof props.back === 'boolean' ? props.back : true);
 
   createEffect(() => {
-    if (props.back) {
+    if (back()) {
       backButton.show();
       return backButton.onClick(() => {
         navigate(-1);

@@ -9,7 +9,6 @@ export function LaunchParamsPage() {
 
   return (
     <Page
-      back
       title="Launch Params"
       disclaimer={(
         <>

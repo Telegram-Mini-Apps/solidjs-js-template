@@ -9,7 +9,7 @@ import './IndexPage.css';
 
 export function IndexPage() {
   return (
-    <Page title="Home Page" back>
+    <Page title="Home Page" back={false}>
       <p>
         This page is a home page in this boilerplate. You can use the links below to visit other
         pages with their own functionality.

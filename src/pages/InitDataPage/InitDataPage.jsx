@@ -87,7 +87,6 @@ export function InitDataPage() {
 
   return (
     <Page
-      back
       title="Init Data"
       disclaimer={(
         <>

@@ -1,5 +1,8 @@
 # Telegram Mini Apps Solid.js Template
 
+> [!WARNING]
+> This template is archived and not supported. Consider using its up-to-date [TypeScript alternative](https://github.com/Telegram-Mini-Apps/solidjs-template).
+
 This template demonstrates how developers can implement a single-page
 application on the Telegram Mini Apps platform using the following technologies
 and libraries:
